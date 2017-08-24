@@ -6,7 +6,9 @@ class Planet {
   float orbitSpeed;
   PVector v;
   
-  Planet(float r, float d, float o){
+  PShape globe;
+  
+  Planet(float r, float d, float o, PImage image){
     v = PVector.random3D();
     radius = r;
     distance = d;
@@ -14,6 +16,10 @@ class Planet {
     orbitSpeed = o;
     angle = random(TWO_PI);
     
+    noStroke();
+    noFill();
+    globe = createShape(SPHERE,radius);
+    globe.setTexture(image);
     
   }
   
@@ -36,9 +42,10 @@ class Planet {
   
   for(int i = 0; i < planets.length; i++){
     float r = radius / (level*2);
-    float d = random((radius + r),(radius +r)*2);
+    float d = random((radius + r),(radius +r)*4);
     float o = random(-0.1,0.1);
-    planets[i] = new Planet(r, d,o);
+    int index = int(random(0,textures.length));
+    planets[i] = new Planet(r, d,o,textures[index]);
     if(level < 2)
     {
       int num = int(random(0,2));
@@ -69,7 +76,8 @@ class Planet {
       translate(v.x,v.y,v.z);
       noStroke();
       fill(255);
-      sphere(radius);
+      shape(globe);
+      //sphere(radius);
     
     if(planets != null)
     {
